@@ -23,10 +23,16 @@
     </header>
 
     <main>
-      <h3>This is products page</h3>
-      <p>product -1</p>
-      <p>product -2</p>
-      <p>product -3</p>
+        <!-- add product -->
+        <div>
+            <form action="/products" method="POST">
+                <label for="product_name">Add product</label>
+                <input type="text" name="product_name" id="product_name">
+
+                <button type="submit">Add</button>
+            </form>
+        </div>
+      
     </main>
   </body>
 </html>

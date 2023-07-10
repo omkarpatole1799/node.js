@@ -18,7 +18,9 @@ app.use(express.static(path.join(__dirname, "public")));
 // products page
 app.get("/products", function (req, res) {
   // res.sendFile(path.join(__dirname, "views", "products.html"));
-  res.render(path.join(__dirname, "views", "products.pug"));
+  res.render(path.join(__dirname, "views", "products.pug"),{
+    pageTitle: "add-products"
+  });
 });
 
 // add product
@@ -34,13 +36,18 @@ app.get("/", (req, res) => {
   res.render(path.join(__dirname, "views", "home.pug"), {
     prods: products,
     title: "Shop",
+    pageTitle: "Shop"
   });
 });
 
 // 404 page
 app.use(function (req, res) {
   // res.status(404).sendFile(path.join(__dirname, "views", "404.html"));
-  res.render(path.join(__dirname, "views", "404.pug"));
+  res
+    .status(404)
+    .render(path.join(__dirname, "views", "404.pug"), {
+      pageTitle: "error-page",
+    });
 });
 
 app.listen(3000);

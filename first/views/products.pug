@@ -1,18 +1,6 @@
-doctype html
-html(lang="en")
-    head
-        meta(charset="UTF-8")
-        meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        title Products
-    body   
-        header
-            nav
-                ul 
-                    li 
-                        a(href="/") Shop 
-                    li 
-                        a(href="/products") Add products from pug
+extends layout/header.pug
 
+block content
         main 
             div 
                 form(action="/products", method="POST")

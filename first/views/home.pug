@@ -1,18 +1,6 @@
-doctype html
-html(lang="en")
-    head
-        meta(charset="UTF-8")
-        meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        title #{title}
-    body 
-        header
-            nav
-                ul 
-                    li 
-                        a(href="/") Shop 
-                    li 
-                        a(href="/products") Add products 
+extends layout/header.pug
 
+block content
         main    
             h3 This is home page from pug
             p Welcome to shop! 

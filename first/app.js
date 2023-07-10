@@ -31,12 +31,16 @@ app.post("/products", function (req, res) {
 // home page
 app.get("/", (req, res) => {
   // res.sendFile(path.join(__dirname, "views", "home.html"));
-  res.render(path.join(__dirname, "views", "home.pug"), { prods: products, title: 'Shop' });
+  res.render(path.join(__dirname, "views", "home.pug"), {
+    prods: products,
+    title: "Shop",
+  });
 });
 
 // 404 page
 app.use(function (req, res) {
-  res.status(404).sendFile(path.join(__dirname, "views", "404.html"));
+  // res.status(404).sendFile(path.join(__dirname, "views", "404.html"));
+  res.render(path.join(__dirname, "views", "404.pug"));
 });
 
 app.listen(3000);

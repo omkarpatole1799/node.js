@@ -1,0 +1,23 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Products
+    body   
+        header
+            nav
+                ul 
+                    li 
+                        a(href="/") Shop 
+                    li 
+                        a(href="/products") Add products from pug
+
+        main 
+            div 
+                form(action="/products", method="POST")
+                    label(for="product_name") Add product 
+                    input(type="text" name="product_name", id="product_name")
+
+                    button(type="submit") Add
+                

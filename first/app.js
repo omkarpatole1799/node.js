@@ -7,7 +7,8 @@ const app = express();
 const products = [];
 
 // setting up templating engine
-app.set("view engine", "pug");
+// app.set("view engine", "pug");
+app.set("view engine", "ejs");
 
 // bodyparser
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -18,7 +19,7 @@ app.use(express.static(path.join(__dirname, "public")));
 // products page
 app.get("/products", function (req, res) {
   // res.sendFile(path.join(__dirname, "views", "products.html"));
-  res.render(path.join(__dirname, "views", "products.pug"), {
+  res.render(path.join(__dirname, "views", "products.ejs"), {
     pageTitle: "add-products",
   });
 });
@@ -33,7 +34,7 @@ app.post("/products", function (req, res) {
 // home page
 app.get("/", (req, res) => {
   // res.sendFile(path.join(__dirname, "views", "home.html"));
-  res.render(path.join(__dirname, "views", "home.pug"), {
+  res.render(path.join(__dirname, "views", "home.ejs"), {
     prods: products,
     title: "Shop",
     pageTitle: "Shop",
@@ -43,7 +44,7 @@ app.get("/", (req, res) => {
 // 404 page
 app.use(function (req, res) {
   // res.status(404).sendFile(path.join(__dirname, "views", "404.html"));
-  res.status(404).render(path.join(__dirname, "views", "404.pug"), {
+  res.status(404).render(path.join(__dirname, "views", "404.ejs"), {
     pageTitle: "error-page",
   });
 });

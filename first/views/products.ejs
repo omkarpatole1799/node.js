@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%=pageTitle%></title>
+</head>
+<body>
+    <!-- navbar section -->
+
+    <header>
+      <nav>
+        <ul>
+          <li>
+            <a href="/">Shop</a>
+          </li>
+          <li>
+            <a href="/products">Add Product</a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+        <!-- add product -->
+        <div>
+            <form action="/products" method="POST">
+                <label for="product_name">Add product (from ejs)</label>
+                <input type="text" name="product_name" id="product_name">
+
+                <button type="submit">Add</button>
+            </form>
+        </div>
+      
+    </main>
+  </body>
+</html>

@@ -1,5 +1,6 @@
-const products = [];
-
+// ===== Imports =====
+const Product = require("../models/product");
+// ===== Imports =====
 // admin controllers
 exports.getAddProduct = function (req, res) {
   res.render("products.ejs", {
@@ -8,13 +9,14 @@ exports.getAddProduct = function (req, res) {
 };
 
 exports.postAddProduct = function (req, res) {
-  products.push({ product_name: req.body.product_name });
-  console.log(products);
+  const product = new Product(req.body.product_name);
+  product.save();
   res.redirect("/");
 };
 
 // home page controller
 exports.getProductsPage = (req, res) => {
+  const products = Product.fetchAll();
   res.render("home.ejs", {
     pageTitle: "home page",
     prods: products,

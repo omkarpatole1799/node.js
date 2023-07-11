@@ -18,8 +18,8 @@ app.use(express.static(path.join(__dirname, "public")));
 // products page
 app.get("/products", function (req, res) {
   // res.sendFile(path.join(__dirname, "views", "products.html"));
-  res.render(path.join(__dirname, "views", "products.pug"),{
-    pageTitle: "add-products"
+  res.render(path.join(__dirname, "views", "products.pug"), {
+    pageTitle: "add-products",
   });
 });
 
@@ -36,18 +36,22 @@ app.get("/", (req, res) => {
   res.render(path.join(__dirname, "views", "home.pug"), {
     prods: products,
     title: "Shop",
-    pageTitle: "Shop"
+    pageTitle: "Shop",
   });
 });
 
 // 404 page
 app.use(function (req, res) {
   // res.status(404).sendFile(path.join(__dirname, "views", "404.html"));
-  res
-    .status(404)
-    .render(path.join(__dirname, "views", "404.pug"), {
-      pageTitle: "error-page",
-    });
+  res.status(404).render(path.join(__dirname, "views", "404.pug"), {
+    pageTitle: "error-page",
+  });
 });
 
-app.listen(3000);
+app.listen(3000, function (e) {
+  if (e) {
+    console.log("there is error on server could not start");
+  } else {
+    console.log("Server spinned up on port 3000");
+  }
+});

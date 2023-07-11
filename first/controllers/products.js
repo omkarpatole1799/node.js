@@ -1,7 +1,3 @@
-// ===== Imports =====
-const path = require("path");
-// ===== Imports =====
-
 const products = [];
 
 // admin controllers

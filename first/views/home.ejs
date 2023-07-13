@@ -27,12 +27,11 @@
   <main>
     <h3>This is home page</h3>
     <p>Welcome to shop! (from ejs)</p>
-    <% if(prods.length> 0) { %>
-    <%for(let i in prods) { %>
-    <p>
-      <%= prods[i].product_name %>
-    </p>
-    <% } %>
+    <%if(prods.length > 0) {%>
+      <%prods.map(el=>{%>
+        <p>Title: <%=el.title%></p>
+        <p>Price: <%=el.price%></p>
+      <%})%>
     <% } %>
   </main>
 </body>

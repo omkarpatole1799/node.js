@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%=pageTitle%></title>
-</head>
-<body>
+  </head>
+  <body>
     <!-- navbar section -->
 
     <header>
@@ -22,16 +22,20 @@
     </header>
 
     <main>
-        <!-- add product -->
-        <div>
-            <form action="/admin/add-products" method="POST">
-                <label for="product_name">Add product (from ejs)</label>
-                <input type="text" name="product_name" id="product_name">
-
-                <button type="submit">Add</button>
-            </form>
-        </div>
-      
+      <!-- add product -->
+      <div>
+        <form action="/admin/add-products" method="POST">
+          <div>
+            <label for="product_name">Add product (from ejs)</label>
+            <input type="text" name="product_name" id="product_name" />
+          </div>
+          <div>
+            <label for="produce_price">Price (from ejs)</label>
+            <input type="text" name="product_price" id="product_price" />
+          </div>
+          <button type="submit">Add</button>
+        </form>
+      </div>
     </main>
   </body>
 </html>

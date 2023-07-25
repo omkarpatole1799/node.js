@@ -23,3 +23,10 @@ exports.getProductsPage = (req, res) => {
     });
   });
 };
+
+// get product details page
+exports.getProductDetails = (req, res) => {
+  const prodId = req.params.productId;
+  console.log(prodId);
+  res.redirect("/");
+};

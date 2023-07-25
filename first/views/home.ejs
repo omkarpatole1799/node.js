@@ -4,6 +4,26 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= pageTitle %></title>
+
+    <style>
+      p span{
+        font-weight: bold;
+      }
+      .home-heading{
+        font-size: 2rem;
+      }
+      .shop-heading{
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
+      .product-container{
+        border: 2px solid black;
+        width: 10rem;
+        margin: 1rem;
+        padding: 0.5rem;
+      }
+    </style>
+
   </head>
 
   <body>
@@ -22,12 +42,22 @@
     </header>
 
     <main>
-      <h3>This is home page</h3>
-      <p>Welcome to shop! (from ejs)</p>
-      <%if(prods.length > 0) {%> <%prods.map(el=>{%>
-      <p>Title: <%=el.title%></p>
-      <p>Price: <%=el.price%></p>
-      <%})%> <% } %>
+      <h3 class="home-heading">This is home page</h3>
+      <p class="shop-heading">Welcome to shop! (from ejs)</p>
+
+      <% if(prods.length > 0) { %> 
+        <% prods.map(el=>{ %>
+          <div class="product-container">
+            <p> <span>Title: </span> <%= el.title%></p>
+            <p> <span>Price: </span> <%= el.price%> ₹</p>
+            <a href="/products/:<%= el.id %>">
+              <button>Details</button>
+            </a>
+            <button>Add to Cart</button>
+          </div>
+        <% }) %> 
+      <% } %>
+      
     </main>
   </body>
 </html>

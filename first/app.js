@@ -6,7 +6,7 @@ const app = express();
 
 const adminRoutes = require("./Routes/admin");
 const shopRoutes = require("./Routes/shop");
-const errorController = require('./controllers/error')
+const errorController = require("./controllers/error");
 // using ejs templating engine
 app.set("view engine", "ejs");
 
@@ -20,7 +20,7 @@ app.use(adminRoutes);
 
 app.use(shopRoutes);
 
-app.use(errorController.get404Page) 
+app.use(errorController.get404Page);
 
 app.listen(3000, function (e) {
   if (e) {

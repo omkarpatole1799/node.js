@@ -33,4 +33,11 @@ module.exports = class Product {
             cb(JSON.parse(fileContent))
         })
     }
+
+    // static fetchById(id, cb){
+    //     const p = 'productsData.json';
+    //     fs.readFile(p, (err, fileContent)=>{
+    //         if
+    //     })
+    // }
 }

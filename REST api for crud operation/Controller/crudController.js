@@ -10,6 +10,17 @@ exports.getData = function (req, res) {
         .catch((err) => console.log(err));
 };
 
+// get by id
+exports.getById = function (req, res) {
+    let id = req.params.id;
+    crudModel
+        .getById(id)
+        .then((responseData) => {
+            res.json(responseData[0][0]);
+        })
+        .catch((err) => console.log(err));
+};
+
 // insert data into db
 exports.postData = function (req, res) {
     let itemName = req.body.itemName;
@@ -19,6 +30,20 @@ exports.postData = function (req, res) {
         .postData(itemName, itemDescription, itemPrice)
         .then(() => {
             console.log("Success adding data");
+        })
+        .catch((err) => console.log(err));
+};
+
+exports.postUpdateData = function (req, res) {
+    let itemId = req.body.itemId;
+    let itemName = req.body.itemName;
+    let itemDescription = req.body.itemDescription;
+    let itemPrice = req.body.itemPrice;
+    console.log(itemName)
+    crudModel
+        .postUpdateData(itemId, itemName, itemDescription, itemPrice)
+        .then(() => {
+            console.log("Success updating data");
         })
         .catch((err) => console.log(err));
 };

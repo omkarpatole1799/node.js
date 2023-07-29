@@ -24,10 +24,15 @@ app.use((req, res, next) => {
 // get data
 app.get("/product-data", crudController.getData);
 
+// get by id
+app.get("/product-data/:id", crudController.getById);
+
 // insert data
-app.post("/add-product", crudController.postData);
+app.post("/product-data/add", crudController.postData);
+
+// update
+app.post("/product-data/update/:id", crudController.postUpdateData);
 
 // delete data
-app.delete("/product-data/:id", crudController.deleteData);
-
+app.delete("/product-data/delete/:id", crudController.deleteData);
 app.listen(3000);

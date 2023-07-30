@@ -36,9 +36,14 @@ exports.getById = function (req, res) {
 
 // insert data into db
 exports.postData = function (req, res) {
+    console.log(req.body);
+    return;
     let itemName = req.body.itemName;
     let itemDescription = req.body.itemDescription;
     let itemPrice = req.body.itemPrice;
+    // let itemPhoto = req.body.itemPhoto;
+    // console.log("item photo", itemPhoto)
+
     crudModel
         .postData(itemName, itemDescription, itemPrice)
         .then(() => {

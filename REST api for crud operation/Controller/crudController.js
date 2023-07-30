@@ -5,9 +5,14 @@ exports.getData = function (req, res) {
     crudModel
         .getData()
         .then((data) => {
-            res.json(data[0]);
+            if (data[0] == "") {
+                res.status(400).json({ message: "not found" });
+            }
+            res.status(200).json([{ message: "success" }, { data: data[0] }]);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+            res.status(400).json({ message: err.message });
+        });
 };
 
 // get by id
@@ -16,9 +21,17 @@ exports.getById = function (req, res) {
     crudModel
         .getById(id)
         .then((responseData) => {
-            res.json(responseData[0][0]);
+            if (responseData[0] == "") {
+                res.status(400).json({ message: "not found" });
+            }
+            res.status(200).json([
+                { message: "success" },
+                { data: responseData[0][0] },
+            ]);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+            console.log(err);
+        });
 };
 
 // insert data into db
@@ -29,7 +42,9 @@ exports.postData = function (req, res) {
     crudModel
         .postData(itemName, itemDescription, itemPrice)
         .then(() => {
-            console.log("Success adding data");
+            res.status(201).json({
+                message: "Success adding data",
+            });
         })
         .catch((err) => console.log(err));
 };
@@ -39,11 +54,12 @@ exports.postUpdateData = function (req, res) {
     let itemName = req.body.itemName;
     let itemDescription = req.body.itemDescription;
     let itemPrice = req.body.itemPrice;
-    console.log(itemName)
     crudModel
         .postUpdateData(itemId, itemName, itemDescription, itemPrice)
         .then(() => {
-            console.log("Success updating data");
+            res.status(201).json({
+                message: "Success updating data",
+            });
         })
         .catch((err) => console.log(err));
 };
@@ -51,10 +67,25 @@ exports.postUpdateData = function (req, res) {
 // delete data from db
 exports.deleteData = function (req, res) {
     let id = req.params.id;
+    let found = true;
     crudModel
-        .deleteData(id)
-        .then(() => {
-            console.log("deleted successful", id);
+        .getById(id)
+        .then((responseData) => {
+            if (responseData[0] == "") {
+                res.status(400).json({ message: "not found" });
+                found = false;
+            }
         })
-        .catch((err) => console.log(err));
+        .catch();
+
+    if (found) {
+        crudModel
+            .deleteData(id)
+            .then((data) => {
+                res.status(201).json({
+                    message: "Success deleting data",
+                });
+            })
+            .catch((err) => console.log(err));
+    }
 };

@@ -6,10 +6,10 @@ exports.getData = function () {
 };
 
 // insert data into db
-exports.postData = function (itemName, itemDescription, itemPrice) {
+exports.postData = function (itemName, itemDescription, itemPrice, itemPhoto) {
     return db.execute(
-        "INSERT INTO nodejsproject.products (title, description, price) VALUES (?, ?, ?)",
-        [itemName, itemDescription, +itemPrice]
+        "INSERT INTO nodejsproject.products (title, description, price, image) VALUES (?, ?, ?, ?)",
+        [itemName, itemDescription, +itemPrice, itemPhoto]
     );
 };
 
@@ -23,10 +23,21 @@ exports.getById = function (id) {
     return db.execute("SELECT * FROM nodejsproject.products WHERE id=?", [id]);
 };
 
-exports.postUpdateData = function (itemId, itemName, itemDescription, itemPrice) {
-    console.log(itemId, itemName, itemDescription, itemPrice)
+exports.postUpdateData = function (
+    itemId,
+    itemName,
+    itemDescription,
+    itemPrice,
+    itemPath
+) {
     return db.execute(
-        "UPDATE nodejsproject.products SET title = ?, price = ?, description = ? where id = ?",
-        [itemName, itemPrice, itemDescription, itemId]
+        "UPDATE nodejsproject.products SET title = ?, price = ?, description = ?, image = ? where id = ?",
+        [
+            itemName,
+            itemPrice,
+            itemDescription,
+            itemPath,
+            itemId,
+        ]
     );
 };

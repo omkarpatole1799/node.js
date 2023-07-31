@@ -36,16 +36,13 @@ exports.getById = function (req, res) {
 
 // insert data into db
 exports.postData = function (req, res) {
-    console.log(req.body);
-    return;
     let itemName = req.body.itemName;
     let itemDescription = req.body.itemDescription;
     let itemPrice = req.body.itemPrice;
-    // let itemPhoto = req.body.itemPhoto;
-    // console.log("item photo", itemPhoto)
+    let itemPhoto = req.file;
 
     crudModel
-        .postData(itemName, itemDescription, itemPrice)
+        .postData(itemName, itemDescription, itemPrice, itemPhoto.path)
         .then(() => {
             res.status(201).json({
                 message: "Success adding data",
@@ -55,12 +52,14 @@ exports.postData = function (req, res) {
 };
 
 exports.postUpdateData = function (req, res) {
-    let itemId = req.body.itemId;
+    let itemId = req.params.id;
     let itemName = req.body.itemName;
     let itemDescription = req.body.itemDescription;
     let itemPrice = req.body.itemPrice;
+    let itemPhoto = req.file;
+    let itemPath = itemPhoto.path
     crudModel
-        .postUpdateData(itemId, itemName, itemDescription, itemPrice)
+        .postUpdateData(itemId, itemName, itemDescription, itemPrice, itemPath)
         .then(() => {
             res.status(201).json({
                 message: "Success updating data",

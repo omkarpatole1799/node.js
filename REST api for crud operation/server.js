@@ -4,23 +4,20 @@ const multer = require("multer");
 const crudController = require("./Controller/crudController");
 
 const app = express();
-const multerConfig = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, "images");
-    },
-    fileName: (req, file, cb) => {
-        const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-        cb(null, file.fieldname + "-" + uniqueSuffix + "-" + file.originalname + ".png");
-    },
-});
 app.use(bodyParser.json());
 
-// multer settings
-app.use(
-    multer({
-        storage: multerConfig,
-    }).single("inputFile")
-);
+// multer
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, "images");
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname + file.originalname);
+    },
+}); 
+
+const upload = multer({ storage: storage }).single("itemPhoto");
+app.use(upload);
 
 // setting up CORS
 app.use((req, res, next) => {
@@ -52,8 +49,4 @@ app.post("/product-data/update/:id", crudController.postUpdateData);
 // delete data
 app.delete("/product-data/delete/:id", crudController.deleteData);
 
-// upload file only
-app.post("/upload/file", function (req, res) {
-    console.log(req.file);
-});
 app.listen(3000);

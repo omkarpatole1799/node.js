@@ -1,9 +1,8 @@
 const express = require("express");
-
 const router = express.Router();
 
-router.get("/", function(req,res){
-    console.log("hello from admin")
-})
+const adminController = require("../Controller/adminController");
+
+router.post("/add-user", adminController.postUserData);
 
 module.exports = router;

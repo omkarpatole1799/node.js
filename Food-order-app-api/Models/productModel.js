@@ -13,7 +13,7 @@ const Product = sequelize.define("Product", {
         allowNull: false,
     },
     productPrice: {
-        type: Sequelize.DOUBLE,
+        type: Sequelize.STRING,
         allowNull: false,
     },
     productDescription: {

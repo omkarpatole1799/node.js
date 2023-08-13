@@ -6,7 +6,9 @@ const productController = {
         let productPrice = req.body.productPrice;
         let productDescription = req.body.productDescription;
         let productCategory = req.body.productDescription;
-        let productImage = req.body.productImage;
+        let productImage = req.file;
+
+        console.log(productImage);
 
         Product.create({
             productName,

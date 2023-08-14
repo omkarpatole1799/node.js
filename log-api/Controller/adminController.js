@@ -1,4 +1,4 @@
-const adminModel = require("../Model/adminModel");
+const UserModel = require("../Model/userModel");
 
 const adminController = {
     postUserData: function (req, res) {
@@ -7,31 +7,23 @@ const adminController = {
         let userType = req.body.userType;
         let profileImage = req.file;
 
-        adminModel
-            .getByEmail(email)
-            .then((data) => {
-                console.log(data);
-                if (data[0].length > 1) {
-                    res.status(409).send({
-                        message: "User already exsist",
-                    });
-                } else {
-                    adminModel
-                        .postUserData(
-                            email,
-                            password,
-                            userType,
-                            profileImage.path
-                        )
-                        .then(() => {
-                            res.status(201).send({
-                                message: "User successfully created",
-                            });
-                        })
-                        .catch((err) => console.log(err));
-                }
+        UserModel.create({
+            user_name: email,
+            password,
+            type: userType,
+        })
+            .then(() => {
+                res.status(201).send({
+                    message: "User Created successfully",
+                    status: 201,
+                });
             })
-            .catch((err) => console.log(err));
+            .catch((err) => {
+                res.status(400).send({
+                    message: "User not created",
+                    status: 400,
+                });
+            });
     },
 };
 

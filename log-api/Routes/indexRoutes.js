@@ -6,8 +6,8 @@ const adminRoutes = require("./adminRoutes");
 const adminController = require("../Controller/adminController");
 
 
-router.use("/admin", adminRoutes);
+router.post("/admin", adminRoutes);
 
-router.use("/login", adminController.getUserLogin);
+router.post("/login", adminController.getUserLogin);
 
 module.exports = router;

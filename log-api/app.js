@@ -5,7 +5,6 @@ const multer = require("multer");
 // files import
 const routes = require("./Routes/indexRoutes");
 const sequelize = require("./Utils/database");
-// const CORS = require("./Utils/CORS");
 
 const app = express();
 

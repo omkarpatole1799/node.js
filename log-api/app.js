@@ -1,6 +1,9 @@
 // packages import
 const express = require("express");
 const multer = require("multer");
+const express_session = require("express-session");
+const dotenv = require("dotenv");
+dotenv.config();
 
 // files import
 const routes = require("./Routes/indexRoutes");
@@ -9,6 +12,13 @@ const sequelize = require("./Utils/database");
 const app = express();
 
 // middlewares
+app.use(
+    express_session({
+        secret: "secret_key",
+        resave: false,
+        saveUninitialized: false,
+    })
+);
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -23,6 +33,7 @@ const storage = multer.diskStorage({
 app.use(multer({ storage: storage }).single("profileImage"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader(
@@ -48,6 +59,6 @@ app.use(function (req, res) {
 sequelize
     .sync()
     .then((result) => {
-        app.listen(4000);
+        app.listen(`${process.env.PORT}`);
     })
     .catch((err) => console.log(err));

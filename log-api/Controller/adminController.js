@@ -1,6 +1,6 @@
 const UserModel = require("../Model/userModel");
 const bcrypt = require("bcrypt");
-// const bcryptjs = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const adminController = {
     postUserData: function (req, res) {
@@ -42,38 +42,49 @@ const adminController = {
             })
             .catch((err) => console.log(err));
     },
-
     getUserLogin: function (req, res) {
+        console.log("get user login");
+    },
+    postUserLogin: function (req, res) {
         const { email: user_name, password: enteredPassword } = req.body;
         UserModel.findOne({
             where: {
                 user_name,
             },
         }).then((user) => {
-            const { user_name, password } = user.dataValues;
-            if (!user_name) {
-                res.status(400).send({
-                    message: "Please check your email",
+            if (user !== null) {
+                const { user_name, password } = user.dataValues;
+                if (user_name) {
+                    bcrypt
+                        .compare(enteredPassword, password)
+                        .then((comparedPassword) => {
+                            if (comparedPassword) {
+                                const tocken = jwt.sign(
+                                    {
+                                        email: user_name,
+                                    },
+                                    "secrtkey",
+                                    { expiresIn: "1h" }
+                                );
+
+                                res.status(200).json({
+                                    message: "authenticated",
+                                    status: 200,
+                                    tocken,
+                                });
+                            } else {
+                                res.status(400).json({
+                                    message: "Wrong password!",
+                                    status: 400,
+                                });
+                            }
+                        });
+                }
+            } else {
+                res.status(400).json({
+                    message: "Wrong email!",
                     status: 400,
                 });
-                return;
-            }
-            if (user_name) {
-                bcrypt
-                    .compare(enteredPassword, password)
-                    .then((comparedPassword) => {
-                        if (comparedPassword) {
-                            res.status(200).send({
-                                message: "authenticated",
-                                status: 200,
-                            });
-                        } else {
-                            res.status(400).send({
-                                message: "Please check your password",
-                                status: 400,
-                            });
-                        }
-                    });
             }
         });
     },

@@ -1,24 +1,20 @@
 // packages import
 const express = require("express");
 const multer = require("multer");
-const express_session = require("express-session");
 const dotenv = require("dotenv");
 dotenv.config();
 
 // files import
-const routes = require("./Routes/indexRoutes");
+const indexRoutes = require("./Routes/indexRoutes");
 const sequelize = require("./Utils/database");
+
+// sequelize models import
+const User = require("./Model/userModel");
+const UserLogs = require("./Model/logDataModel");
 
 const app = express();
 
 // middlewares
-app.use(
-    express_session({
-        secret: "secret_key",
-        resave: false,
-        saveUninitialized: false,
-    })
-);
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -48,17 +44,24 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use(routes);
+app.use("/", indexRoutes);
 app.use(function (req, res) {
     res.status(404).send({
-        message: "Not found",
+        message: "Route Not found",
         status: 404,
     });
 });
 
+// sequelize associations
+User.hasMany(UserLogs, { onDelete: "CASCADE" });
+UserLogs.belongsTo(User, { onDelete: "CASCADE" });
+
 sequelize
+    // .sync({ force: true })
     .sync()
     .then((result) => {
-        app.listen(`${process.env.PORT}`);
+        app.listen(`${process.env.PORT}`, () => {
+            console.log("app running on port", process.env.PORT);
+        });
     })
     .catch((err) => console.log(err));

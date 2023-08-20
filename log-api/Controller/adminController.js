@@ -4,6 +4,8 @@ const jwt = require("jsonwebtoken");
 
 const adminController = {
     postUserData: function (req, res) {
+        console.log("posting user data", req.body);
+
         let { email: user_name, password: password, userType: type } = req.body;
 
         UserModel.findOne({
@@ -41,9 +43,6 @@ const adminController = {
                 }
             })
             .catch((err) => console.log(err));
-    },
-    getUserLogin: function (req, res) {
-        console.log("get user login");
     },
     postUserLogin: function (req, res) {
         const { email: user_name, password: enteredPassword } = req.body;

@@ -1,13 +1,16 @@
+// packages import
 const express = require("express");
 
+// functions
 const router = express.Router();
 
-const adminRoutes = require("./adminRoutes");
+// files import
 const adminController = require("../Controller/adminController");
 
+// routes
 
-router.post("/admin", adminRoutes);
-
-router.get("/login", adminController.getUserLogin);
 router.post("/login", adminController.postUserLogin);
+
+router.post("/add-user", adminController.postUserData);
+
 module.exports = router;

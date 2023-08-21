@@ -10,7 +10,7 @@ const sequelize = require("./Utils/database");
 
 // sequelize models import
 const User = require("./Model/userModel");
-const UserLogs = require("./Model/logDataModel");
+const UserLog = require("./Model/logDataModel");
 
 const app = express();
 
@@ -53,8 +53,8 @@ app.use(function (req, res) {
 });
 
 // sequelize associations
-User.hasMany(UserLogs, { onDelete: "CASCADE" });
-UserLogs.belongsTo(User, { onDelete: "CASCADE" });
+UserLog.belongsTo(User, { constraints: true, onDelete: "CASCADE" });
+User.hasMany(UserLog);
 
 sequelize
     // .sync({ force: true })

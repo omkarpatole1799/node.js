@@ -13,4 +13,6 @@ router.post("/login", adminController.postUserLogin);
 
 router.post("/add-user", adminController.postUserData);
 
+router.post("/add-log", adminController.postLogData);
+
 module.exports = router;

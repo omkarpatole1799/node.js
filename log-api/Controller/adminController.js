@@ -1,16 +1,15 @@
 const UserModel = require("../Model/userModel");
+const UserLog = require("../Model/logDataModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 const adminController = {
     postUserData: function (req, res) {
-        console.log("posting user data", req.body);
-
-        let { email: user_name, password: password, userType: type } = req.body;
+        let { email: user_name, pass: password } = req.body;
 
         UserModel.findOne({
             where: {
-                user_name: user_name,
+                user_name,
             },
         })
             .then((user) => {
@@ -20,7 +19,6 @@ const adminController = {
                         UserModel.create({
                             user_name,
                             password: hashedPassword,
-                            type,
                         })
                             .then(() => {
                                 res.status(201).send({
@@ -45,7 +43,7 @@ const adminController = {
             .catch((err) => console.log(err));
     },
     postUserLogin: function (req, res) {
-        const { email: user_name, password: enteredPassword } = req.body;
+        const { email: user_name, pass: enteredPassword } = req.body;
         UserModel.findOne({
             where: {
                 user_name,
@@ -68,24 +66,35 @@ const adminController = {
 
                                 res.status(200).json({
                                     message: "authenticated",
-                                    status: 200,
                                     tocken,
                                 });
                             } else {
-                                res.status(400).json({
+                                res.status(401).json({
                                     message: "Wrong password!",
-                                    status: 400,
                                 });
                             }
                         });
                 }
             } else {
-                res.status(400).json({
+                res.status(401).json({
                     message: "Wrong email!",
-                    status: 400,
                 });
             }
         });
+    },
+    postLogData: function (req, res) {
+        const { logInfo } = req.body;
+        console.log(logInfo);
+        UserLog.create({
+            logInfo,
+        })
+            .then((result) => {
+                res.status(201).json({
+                    message: "successfully added log",
+                    status: 201,
+                });
+            })
+            .catch((err) => console.log(err));
     },
 };
 

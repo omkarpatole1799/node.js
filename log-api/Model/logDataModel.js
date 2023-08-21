@@ -1,17 +1,17 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../Utils/database");
 
-const UserLogs = sequelize.define("UserLogs", {
+const UserLog = sequelize.define("UserLog", {
     id: {
         type: Sequelize.INTEGER,
-        primaryKey: true,
         autoIncrement: true,
         allowNull: false,
+        primaryKey: true,
     },
-    logInfomation: {
+    logInfo: {
         type: Sequelize.STRING,
         allowNull: false,
     },
 });
 
-module.exports = UserLogs;
+module.exports = UserLog;

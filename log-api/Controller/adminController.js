@@ -5,11 +5,11 @@ const jwt = require("jsonwebtoken");
 
 const adminController = {
     postUserData: function (req, res) {
-        let { email: user_name, pass: password } = req.body;
+        let { user_name, user_email, pass: password } = req.body;
 
         UserModel.findOne({
             where: {
-                user_name,
+                user_email,
             },
         })
             .then((user) => {
@@ -18,6 +18,7 @@ const adminController = {
                         console.log(hashedPassword);
                         UserModel.create({
                             user_name,
+                            user_email,
                             password: hashedPassword,
                         })
                             .then(() => {
@@ -50,7 +51,7 @@ const adminController = {
             },
         }).then((user) => {
             if (user !== null) {
-                const { user_name, password } = user.dataValues;
+                const { id, user_name, password } = user.dataValues;
                 if (user_name) {
                     bcrypt
                         .compare(enteredPassword, password)
@@ -59,6 +60,7 @@ const adminController = {
                                 const tocken = jwt.sign(
                                     {
                                         email: user_name,
+                                        userId: id,
                                     },
                                     "secrtkey",
                                     { expiresIn: "1h" }
@@ -67,17 +69,18 @@ const adminController = {
                                 res.status(200).json({
                                     message: "authenticated",
                                     tocken,
+                                    userId: id,
                                 });
                             } else {
                                 res.status(401).json({
-                                    message: "Wrong password!",
+                                    message: "Incorret Password",
                                 });
                             }
                         });
                 }
             } else {
                 res.status(401).json({
-                    message: "Wrong email!",
+                    message: "Incorrect Email",
                 });
             }
         });

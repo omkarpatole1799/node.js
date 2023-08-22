@@ -58,7 +58,7 @@ User.hasMany(UserLog);
 
 sequelize
     // .sync({ force: true })
-    .sync()
+    .sync({ alter: true })
     .then((result) => {
         app.listen(`${process.env.PORT}`, () => {
             console.log("app running on port", process.env.PORT);

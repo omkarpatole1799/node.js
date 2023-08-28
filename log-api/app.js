@@ -1,6 +1,7 @@
 // packages import
 const express = require("express");
 const multer = require("multer");
+const cors = require("cors");
 const dotenv = require("dotenv");
 dotenv.config();
 
@@ -16,6 +17,10 @@ const app = express();
 
 // middlewares
 
+//cors
+app.use(cors());
+
+// multer
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, "images");
@@ -29,20 +34,6 @@ const storage = multer.diskStorage({
 app.use(multer({ storage: storage }).single("profileImage"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
-app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader(
-        "Access-Control-Allow-Methods",
-        "OPTIONS, GET, POST, PUT, PATCH, DELETE"
-    );
-    res.setHeader(
-        "Access-Control-Allow-Headers",
-        "Content-Type",
-        "Authorization"
-    );
-    next();
-});
 
 app.use("/", indexRoutes);
 app.use(function (req, res) {
@@ -58,7 +49,8 @@ User.hasMany(UserLog);
 
 sequelize
     // .sync({ force: true })
-    .sync({ alter: true })
+    // .sync({ alter: true })
+    .sync()
     .then((result) => {
         app.listen(`${process.env.PORT}`, () => {
             console.log("app running on port", process.env.PORT);

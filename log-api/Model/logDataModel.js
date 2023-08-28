@@ -12,6 +12,10 @@ const UserLog = sequelize.define("UserLog", {
         type: Sequelize.STRING,
         allowNull: false,
     },
+    projectTitle: {
+        type: Sequelize.STRING, 
+        allowNull: false, 
+    }
 });
 
 module.exports = UserLog;

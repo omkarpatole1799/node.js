@@ -2,6 +2,8 @@ const UserModel = require("../Model/userModel");
 const UserLog = require("../Model/logDataModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv");
+dotenv.config();
 
 const adminController = {
     postUserData: function (req, res) {
@@ -15,7 +17,6 @@ const adminController = {
             .then((user) => {
                 if (!user) {
                     bcrypt.hash(password, 12).then((hashedPassword) => {
-                        console.log(hashedPassword);
                         UserModel.create({
                             user_name,
                             user_email,
@@ -43,11 +44,16 @@ const adminController = {
             })
             .catch((err) => console.log(err));
     },
+    getUserLogin: function (req, res, next) {
+        res.status(200).json({
+            message: "authorized",
+        });
+    },
     postUserLogin: function (req, res) {
-        const { email: user_name, pass: enteredPassword } = req.body;
+        const { user_email, pass: enteredPassword } = req.body;
         UserModel.findOne({
             where: {
-                user_name,
+                user_email,
             },
         }).then((user) => {
             if (user !== null) {
@@ -59,10 +65,10 @@ const adminController = {
                             if (comparedPassword) {
                                 const tocken = jwt.sign(
                                     {
-                                        email: user_name,
+                                        user_email,
                                         userId: id,
                                     },
-                                    "secrtkey",
+                                    `${process.env.JWT_SECRET}`,
                                     { expiresIn: "1h" }
                                 );
 
@@ -85,11 +91,15 @@ const adminController = {
             }
         });
     },
+    getAddLog: function (req, res) {},
     postLogData: function (req, res) {
-        const { logInfo } = req.body;
-        console.log(logInfo);
+        console.log(req.body);
+        const { log, projectTitle } = req.body;
+        const userId = req.userId;
         UserLog.create({
-            logInfo,
+            logInfo: log,
+            projectTitle,
+            UserId: userId,
         })
             .then((result) => {
                 res.status(201).json({

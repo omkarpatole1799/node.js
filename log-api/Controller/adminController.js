@@ -46,7 +46,7 @@ const adminController = {
     },
     getUserLogin: function (req, res, next) {
         res.status(200).json({
-            message: "authorized",
+            call: 1,
         });
     },
     postUserLogin: function (req, res) {
@@ -91,7 +91,11 @@ const adminController = {
             }
         });
     },
-    getAddLog: function (req, res) {},
+    getAddLog: function (req, res) {
+        res.status(200).json({
+            call: 1,
+        });
+    },
     postLogData: function (req, res) {
         console.log(req.body);
         const { log, projectTitle } = req.body;

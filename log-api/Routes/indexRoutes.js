@@ -11,7 +11,6 @@ const isAuth = require("../middleware/is-auth");
 // routes
 
 router.get("/login", isAuth, adminController.getUserLogin);
-router.get("/add-log", isAuth, adminController.getAddLog);
 
 
 router.post("/login", adminController.postUserLogin);

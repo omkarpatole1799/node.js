@@ -113,6 +113,9 @@ const adminController = {
             })
             .catch((err) => console.log(err));
     },
+    getLogList: function (req, res) {
+        
+    },
 };
 
 module.exports = adminController;

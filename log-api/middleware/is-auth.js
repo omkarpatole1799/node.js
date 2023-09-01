@@ -36,6 +36,10 @@ const isAuth = (req, res, next) => {
                 }
             }
         );
+    } else {
+        return res.status(401).json({
+            call: 0,
+        }); 
     }
 };
 module.exports = isAuth;

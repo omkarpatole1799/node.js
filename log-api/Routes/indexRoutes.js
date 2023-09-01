@@ -12,12 +12,12 @@ const isAuth = require("../middleware/is-auth");
 
 router.get("/login", isAuth, adminController.getUserLogin);
 
+router.get("/log-list", isAuth, adminController.getLogList);
 
 router.post("/login", adminController.postUserLogin);
 
 router.post("/add-user", adminController.postUserData);
 
 router.post("/add-log", isAuth, adminController.postLogData);
-
 
 module.exports = router;

@@ -12,7 +12,7 @@ const isAuth = require("../middleware/is-auth");
 
 router.get("/login", isAuth, adminController.getUserLogin);
 
-router.get("/log-list", isAuth, adminController.getLogList);
+router.get("/log-list/:userId", isAuth, adminController.getLogList);
 
 router.post("/login", adminController.postUserLogin);
 

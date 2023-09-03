@@ -114,7 +114,14 @@ const adminController = {
             .catch((err) => console.log(err));
     },
     getLogList: function (req, res) {
-        
+        console.log(req.params);
+        const { userId } = req.params;
+        console.log("======================================");
+        UserLog.findAll()
+            .then((result) => {
+                console.log(result);
+            })
+            .catch((err) => console.log(err));
     },
 };
 

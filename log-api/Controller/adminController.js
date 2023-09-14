@@ -119,12 +119,28 @@ const adminController = {
     getLogList: function (req, res) {
         console.log(req.params);
         const { userId } = req.params;
-        console.log('======================================');
-        UserLog.findAll()
+        console.log(typeof userId);
+
+        UserLog.findAll({
+            attributes: ['logInfo', 'projectTitle'],
+            where: {
+                userId: Number(userId),
+            },
+            raw: true,
+        })
             .then((result) => {
                 console.log(result);
+                return res.status(200).send({
+                    call: 1,
+                    data: result,
+                });
             })
-            .catch((err) => console.log(err));
+            .catch((err) => {
+                return res.status(500).send({
+                    call: 0,
+                    data: err,
+                });
+            });
     },
 };
 

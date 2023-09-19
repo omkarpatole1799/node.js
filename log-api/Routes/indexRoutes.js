@@ -1,23 +1,13 @@
-// packages import
-const express = require("express");
-
-// functions
+const express = require('express');
 const router = express.Router();
 
-// files import
-const adminController = require("../Controller/adminController");
-const isAuth = require("../middleware/is-auth");
+const authRoutes = require('./authRoutes');
+const adminRoutes = require('./adminRoutes');
+const userRoutes = require('./userRoutes');
 
 // routes
-
-router.get("/login", isAuth, adminController.getUserLogin);
-
-router.get("/log-list/:userId", isAuth, adminController.getLogList);
-
-router.post("/login", adminController.postUserLogin);
-
-router.post("/add-user", adminController.postUserData);
-
-router.post("/add-log", isAuth, adminController.postLogData);
+router.use('/auth', authRoutes);
+router.use('/admin', adminRoutes);
+router.use('/user', userRoutes);
 
 module.exports = router;

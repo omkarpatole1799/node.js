@@ -22,13 +22,13 @@ app.use(cors());
 
 // multer
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'images');
-    },
-    filename: function (req, file, cb) {
-        let profileImageName = `profileImage-${req.body.email.split('@')[0]}`;
-        cb(null, profileImageName + '-' + file.originalname);
-    },
+  destination: function (req, file, cb) {
+    cb(null, 'images');
+  },
+  filename: function (req, file, cb) {
+    let profileImageName = `profileImage-${req.body.email.split('@')[0]}`;
+    cb(null, profileImageName + '-' + file.originalname);
+  },
 });
 
 app.use(multer({ storage: storage }).single('profileImage'));
@@ -37,10 +37,10 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use('/', indexRoutes);
 app.use(function (req, res) {
-    res.status(404).send({
-        message: 'Route Not found',
-        status: 404,
-    });
+  res.status(404).send({
+    message: 'Route Not found',
+    status: 404,
+  });
 });
 
 // sequelize associations
@@ -48,12 +48,12 @@ UserLog.belongsTo(User, { constraints: true, onDelete: 'CASCADE' });
 User.hasMany(UserLog);
 
 sequelize
-    // .sync({ force: true })
-    // .sync({ alter: true })
-    .sync()
-    .then((result) => {
-        app.listen(`${process.env.PORT}`, () => {
-            console.log('app running on port', process.env.PORT);
-        });
-    })
-    .catch((err) => console.log(err));
+  // .sync({ force: true })
+  // .sync({ alter: true })
+  .sync()
+  .then((result) => {
+    app.listen(`${process.env.PORT}`, () => {
+      console.log('app running on port', process.env.PORT);
+    });
+  })
+  .catch((err) => console.log(err));

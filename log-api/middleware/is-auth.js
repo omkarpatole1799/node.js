@@ -9,9 +9,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const isAuth = (req, res, next) => {
-    console.log("startin isAuth");
     const authHeader = req.get("Authorization");
-    console.log(authHeader, "authHeader ----------------");
     let decodedTocken;
     if (authHeader) {
         let tocken = authHeader.split(" ")[1];

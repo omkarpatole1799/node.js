@@ -22,7 +22,7 @@ exports.postUserLogin = function (req, res) {
                 userId: id,
               },
               `${process.env.JWT_SECRET}`,
-              { expiresIn: '1h' }
+              { expiresIn: '10h' }
             );
 
             res.status(200).json({

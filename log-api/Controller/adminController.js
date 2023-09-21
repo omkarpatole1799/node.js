@@ -1,25 +1,24 @@
 const UserModel = require('../Model/userModel');
-const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const dotenv = require('dotenv');
 dotenv.config();
 
 exports.addUser = function (req, res) {
-  let { user_name, user_email, pass: password, user_type } = req.body;
+  let { userName, userEmail, pass: password, userType } = req.body;
 
   UserModel.findOne({
     where: {
-      user_email,
+      userEmail,
     },
   })
     .then((user) => {
       if (!user) {
         bcrypt.hash(password, 12).then((hashedPassword) => {
           UserModel.create({
-            user_name,
-            user_email,
+            userName,
+            userEmail,
             password: hashedPassword,
-            user_type, // 1 for admin and 2 for local user
+            userType, // 1 for admin and 2 for local user
           })
             .then(() => {
               res.status(201).send({
@@ -43,5 +42,3 @@ exports.addUser = function (req, res) {
     })
     .catch((err) => console.log(err));
 };
-
-

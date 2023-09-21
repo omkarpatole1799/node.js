@@ -9,11 +9,11 @@ const User = sequelize.define('User', {
         allowNull: false,
         primaryKey: true,
     },
-    user_name: {
+    userName: {
         type: Sequelize.STRING(255),
         allowNull: false,
     },
-    user_email: {
+    userEmail: {
         type: Sequelize.STRING,
         allowNull: false,
     },
@@ -21,7 +21,7 @@ const User = sequelize.define('User', {
         type: Sequelize.STRING(500),
         allowNull: false,
     },
-    user_type: {
+    userType: {
         type: Sequelize.INTEGER,
         allowNull: false,
     },

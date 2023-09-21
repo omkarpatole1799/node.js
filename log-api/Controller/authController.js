@@ -4,21 +4,21 @@ const jwt = require('jsonwebtoken');
 const UserModel = require('../Model/userModel');
 
 exports.postUserLogin = function (req, res) {
-  const { user_email, pass: enteredPassword } = req.body;
-  console.log(req.body);
+  const { userEmail, pass: enteredPassword } = req.body;
+
   UserModel.findOne({
     where: {
-      user_email,
+      userEmail,
     },
   }).then((user) => {
     if (user !== null) {
-      const { id, user_name, password, user_type } = user.dataValues;
-      if (user_name) {
+      const { id, userName, password, userType } = user.dataValues;
+      if (userName) {
         bcrypt.compare(enteredPassword, password).then((comparedPassword) => {
           if (comparedPassword) {
             const tocken = jwt.sign(
               {
-                user_email,
+                userEmail,
                 userId: id,
               },
               `${process.env.JWT_SECRET}`,
@@ -29,8 +29,8 @@ exports.postUserLogin = function (req, res) {
               message: 'authenticated',
               tocken,
               userId: id,
-              user_name,
-              user_type,
+              userName,
+              userType,
             });
           } else {
             res.status(401).json({

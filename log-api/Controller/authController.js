@@ -5,7 +5,6 @@ const UserModel = require('../Model/userModel');
 
 exports.postUserLogin = function (req, res) {
   const { userEmail, pass: enteredPassword } = req.body;
-
   UserModel.findOne({
     where: {
       userEmail,

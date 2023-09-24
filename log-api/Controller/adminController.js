@@ -21,20 +21,20 @@ exports.addUser = function (req, res) {
             userType, // 1 for admin and 2 for local user
           })
             .then(() => {
-              res.status(201).send({
+              res.status(201).json({
                 message: 'User Created successfully',
                 status: 201,
               });
             })
             .catch((err) => {
-              res.status(400).send({
+              res.status(400).json({
                 message: 'User not created',
                 status: 400,
               });
             });
         });
       } else {
-        res.status(400).send({
+        res.status(400).json({
           message: 'Email already exsist',
           status: 400,
         });

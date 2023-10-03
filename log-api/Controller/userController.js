@@ -21,10 +21,10 @@ exports.postLogData = function (req, res) {
 
 // getting user log list
 exports.getLogList = function (req, res) {
-    const { id: userId } = req.params
-
+    const userId = req.userId
+    console.log(req.userId)
     UserLog.findAll({
-        attributes: ['logInfo', 'projectTitle'],
+        attributes: ['logInfo', 'projectTitle', 'createdAt'],
         where: {
             userId: Number(userId),
         },

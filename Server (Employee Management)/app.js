@@ -16,7 +16,6 @@ const attendance = require('./Model/attendanceModel')
 const app = express()
 
 // middlewares
-
 //cors
 app.use(cors())
 

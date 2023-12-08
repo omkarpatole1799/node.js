@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form action="">
+      <div>
+        <label for="column-name">Column Name</label>
+        <input id="column-name" name="column-name" type="text" />
+      </div>
+      <div>
+        <label for="data-type">Data Type</label>
+        <input id="data-type" type="text" />
+      </div>
+      <div>
+        <label for="allow-null">Allow Null</label>
+        <input id="allow-null" name="allow-null" type="checkbox" />
+      </div>
+      <button id="submit-button" type="button">Submit</button>
+    </form>
+
+    <script>
+      let btn = document.querySelector('#submit-button')
+      let columnName = document.querySelector('#column-name')
+      let dataType = document.querySelector('#data-type')
+      let allowNull = document.querySelector('#allow-null')
+
+      btn.addEventListener('click', function (e) {
+        e.preventDefault()
+        makeSequelizeScript(columnName.value, dataType.value, allowNull.checked)
+      })
+      function makeSequelizeScript(columnName, dataType, allowNull) {
+        console.log(columnName, dataType, allowNull)
+        console.log(`
+        ${columnName} : {
+          type: Sequelize.${dataType.toUpperCase()}, 
+          allowNull: ${allowNull ? true : false}
+        } 
+      `)
+      }
+    </script>
+  </body>
+</html>

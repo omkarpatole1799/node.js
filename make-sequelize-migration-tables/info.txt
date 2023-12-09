@@ -1,0 +1,1 @@
+https://gomakethings.com/how-to-serialize-form-data-with-vanilla-js/

@@ -9,37 +9,38 @@ addRowBtn.addEventListener('click', function (e) {
   addNewRow()
   update()
 })
+
 function update() {
-  console.log('dom loaded')
   document.querySelectorAll('.delete-row-btn').forEach((btn) => {
     btn.addEventListener('click', function (e) {
-      console.log('clicked')
       e.target.parentElement.parentElement.remove()
     })
   })
 }
+
 let num = 0
 function addNewRow() {
   num++
   document.querySelector('.tbody').insertAdjacentHTML(
     'beforeend',
     `
-			<tr>
+	<tr>
         <td><input type="text" name='row-${num}' /></td>
         <td><input type="text" name="row-${num}" /></td>
         <td><input type="checkbox" name="row-${num}" checked='true'/></td>
-				<td><button class='delete-row-btn' type='button'>Delete</button></td>
-      </tr>
-		`
+		<td><button class='delete-row-btn' type='button'>Delete</button></td>
+    </tr>
+`
   )
 }
+let all = ''
+
 btn.addEventListener('click', function (e) {
   e.preventDefault()
+  let tableName = document.getElementById('table-name').value
   let obj = {}
   let form = new FormData(document.getElementById('my-form'))
   for (let [key, value] of form) {
-    console.log(key)
-
     if (obj[key] !== undefined) {
       if (!Array.isArray(obj[key])) {
         obj[key] = [obj[key]]
@@ -49,14 +50,41 @@ btn.addEventListener('click', function (e) {
       obj[key] = value
     }
   }
-  console.log(obj)
+  all += returnCommonSequelizeScript(tableName, obj)
+  document.getElementById('preview-script').value = ''
+  document.getElementById('preview-script').value = all
 })
-function makeSequelizeScript(columnName, dataType, allowNull) {
-  console.log(columnName, dataType, allowNull)
-  console.log(`
+
+function returnCommonSequelizeScript(tableName, obj) {
+  return `
+	const Sequelize = require('sequelize')	
+	const sequelize = require('../../config/db.connect.js')
+
+	export const ${tableName} = sequelize.define('${tableName}', {
+		id:{ 
+			Sequelize.INTEGER, 
+		    allowNull: false, 
+		    primaryKey: true, 
+		    autoIncrement: true
+		},
+		${makeTableColumns(obj)}	
+	})
+	`
+}
+
+function makeTableColumns(obj) {
+  let columns = ''
+  for (let i of Object.values(obj)) {
+    columns += makeColumns(i[0], i[1], i[2])
+  }
+  return columns
+}
+
+function makeColumns(columnName, dataType, allowNull) {
+  return `
         ${columnName} : {
           type: Sequelize.${dataType.toUpperCase()}, 
           allowNull: ${allowNull ? true : false}
-        } 
-      `)
+        },
+      `
 }

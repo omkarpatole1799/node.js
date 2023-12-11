@@ -40,6 +40,7 @@ btn.addEventListener('click', function (e) {
   let tableName = document.getElementById('table-name').value
   let obj = {}
   let form = new FormData(document.getElementById('my-form'))
+  console.log(typeof obj, typeof form)
   for (let [key, value] of form) {
     if (obj[key] !== undefined) {
       if (!Array.isArray(obj[key])) {

@@ -52,8 +52,9 @@ btn.addEventListener('click', function (e) {
     }
   }
   all += returnCommonSequelizeScript(tableName, obj)
-  document.getElementById('preview-script').value = ''
-  document.getElementById('preview-script').value = all
+  // document.getElementById('preview-script').value = ''
+  // document.getElementById('preview-script').value = all
+  getSequelizeScript(all)
 })
 
 function returnCommonSequelizeScript(tableName, obj) {
@@ -63,7 +64,7 @@ function returnCommonSequelizeScript(tableName, obj) {
 
 	export const ${tableName} = sequelize.define('${tableName}', {
 		id:{ 
-			Sequelize.INTEGER, 
+			  type:Sequelize.INTEGER, 
 		    allowNull: false, 
 		    primaryKey: true, 
 		    autoIncrement: true
@@ -88,4 +89,27 @@ function makeColumns(columnName, dataType, allowNull) {
           allowNull: ${allowNull ? true : false}
         },
       `
+}
+
+async function getSequelizeScript(script) {
+  let response = await fetch('/post-sequelize-script', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ script }),
+  })
+  let data = await response.json()
+  console.log(data)
+  if (data.success === 1) {
+    downloadSequelizeScript()
+  } else {
+    alert('Something went wrong')
+  }
+}
+function downloadSequelizeScript() {
+  window.open('/get-sequelize-file')
+  setTimeout(() => {
+    location.reload()
+  }, 1000)
 }

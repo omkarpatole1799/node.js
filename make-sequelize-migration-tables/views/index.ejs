@@ -1,34 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    <label for="table-name">Table Name</label>
-    <input type="text" name="table-name" id="table-name" />
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<label for="table-name">Table Name</label>
+		<input type="text" name="table-name" id="table-name" />
 
-    <form action="" id="my-form">
-      <td><button id="add-row-button" type="button">+</button></td>
-      <button type="button" id="submit-button">Submit</button>
-      <br />
-      <table>
-        <thead>
-          <tr>
-            <th>Column Name</th>
-            <th>Data Type</th>
-            <th>Allow Null</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody class="tbody"></tbody>
-      </table>
-    </form>
-    <label for="preview-script">Preview Script</label>
-    <br />
-    <textarea name="" id="preview-script" cols="110" rows="30"></textarea>
-
-    <script defer src="/js/script.js"></script>
-  </body>
+		<form action="" id="my-form">
+			<td><button id="add-row-button" type="button">+</button></td>
+			<button type="button" id="submit-button">Submit</button>
+			<br />
+			<table>
+				<thead>
+					<tr>
+						<th>Column Name</th>
+						<th>Data Type</th>
+						<th>Allow Null</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody class="tbody"></tbody>
+			</table>
+		</form>
+		<script defer src="/js/script.js"></script>
+	</body>
 </html>

@@ -134,8 +134,5 @@ function getSequelizeScript(fileName, script, cb) {
 }
 
 function downloadSequelizeScript(fileName) {
-	window.open(`/get-sequelize-file?fileName=${fileName}`)
-	setTimeout(() => {
-		window.close()
-	}, 1000)
+	window.open(`/get-sequelize-file?fileName=${fileName}`,'_self')
 }

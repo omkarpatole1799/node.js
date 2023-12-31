@@ -53,7 +53,6 @@ btn.addEventListener('click', function (e) {
 	let tableName = document.getElementById('table-name').value
 	let obj = {}
 	let form = new FormData(document.getElementById('my-form'))
-	console.log(typeof obj, typeof form)
 	for (let [key, value] of form) {
 		if (obj[key] !== undefined) {
 			if (!Array.isArray(obj[key])) {
@@ -65,8 +64,10 @@ btn.addEventListener('click', function (e) {
 		}
 	}
 	all += returnCommonSequelizeScript(tableName, obj)
-	console.log(all)
-	getSequelizeScript(tableName, all)
+	getSequelizeScript(tableName, all, (fileName) => {
+		downloadSequelizeScript(fileName)
+		all = ''
+	})
 })
 
 function returnCommonSequelizeScript(tableName, obj) {
@@ -104,30 +105,37 @@ function makeColumns(columnName, dataType, allowNull) {
 			`
 }
 
-async function getSequelizeScript(fileName, script) {
+function getSequelizeScript(fileName, script, cb) {
 	let sendData = {
 		fileName,
 		script,
 	}
-	let response = await fetch('/post-sequelize-script', {
+	fetch('/post-sequelize-script', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
 		},
 		body: JSON.stringify(sendData),
 	})
-	let data = await response.json()
-	console.log(data)
-	// if (data.success === 1) {
-	// 	downloadSequelizeScript()
-	// } else {
-	// 	alert('Something went wrong')
-	// }
+		.then((response) => {
+			return response.json()
+		})
+		.then((result) => {
+			console.log(result)
+			if (result.success === 1) {
+				cb(fileName)
+			} else {
+				throw new Error('Something went wrong')
+			}
+		})
+		.catch((err) => {
+			console.log(err)
+		})
 }
 
-function downloadSequelizeScript() {
-	window.open('/get-sequelize-file')
+function downloadSequelizeScript(fileName) {
+	window.open(`/get-sequelize-file?fileName=${fileName}`)
 	setTimeout(() => {
-		location.reload()
+		window.close()
 	}, 1000)
 }

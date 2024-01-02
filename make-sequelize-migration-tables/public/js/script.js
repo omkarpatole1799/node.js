@@ -3,7 +3,7 @@ let btn = document.querySelector('#submit-button')
 let columnName = document.querySelector('#column-name')
 let dataType = document.querySelector('#data-type')
 let allowNull = document.querySelector('#allow-null')
-
+let downloadScriptBtn = document.querySelector('#download-script')
 let num = 0
 let all = ''
 let dataTypes = ['INTEGER', 'BIGINT', 'STRING(255)']
@@ -121,7 +121,6 @@ function getSequelizeScript(fileName, script, cb) {
 			return response.json()
 		})
 		.then((result) => {
-			console.log(result)
 			if (result.success === 1) {
 				cb(fileName)
 			} else {
@@ -134,5 +133,5 @@ function getSequelizeScript(fileName, script, cb) {
 }
 
 function downloadSequelizeScript(fileName) {
-	window.open(`/get-sequelize-file?fileName=${fileName}`,'_self')
+	downloadScriptBtn.setAttribute('href', `/get-sequelize-file?fileName=${fileName}`)
 }

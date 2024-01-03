@@ -128,10 +128,10 @@ function getSequelizeScript(fileName, script, cb) {
 			}
 		})
 		.catch((err) => {
-			console.log(err)
+			alert(err, 'Something went wrong')
 		})
 }
 
 function downloadSequelizeScript(fileName) {
-	downloadScriptBtn.setAttribute('href', `/get-sequelize-file?fileName=${fileName}`)
+	downloadScriptBtn.setAttribute('href', `/created-scripts/${fileName}.js`)
 }

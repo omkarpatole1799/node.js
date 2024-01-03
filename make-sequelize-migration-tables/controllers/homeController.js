@@ -11,7 +11,7 @@ const homeController = {
 		let fileName = req.body.fileName
 
 		try {
-			fs.writeFileSync(`./created-scripts/${fileName}.js`, script)
+			fs.writeFileSync(`./public/created-scripts/${fileName}.js`, script)
 			res.status(201).json({
 				success: 1,
 				message: 'File has been successfully written.',

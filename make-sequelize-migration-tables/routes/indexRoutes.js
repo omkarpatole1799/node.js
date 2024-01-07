@@ -1,12 +1,11 @@
 const express = require('express')
 const router = express.Router()
-const homeController = require('../controllers/homeController.js')
-const fs = require('fs')
-const path = require('path')
-router.get('/', homeController.getIndexView)
+const home_controller = require('../controllers/home_controller.js')
 
-router.post('/post-sequelize-script', homeController.post_sequelize_script)
+router.get('/', home_controller.get_index_view)
 
-router.get('/get-sequelize-file', homeController.get_sequelize_script_file)
+router.post('/post-sequelize-script', home_controller.post_sequelize_script)
+
+router.get('/get-sequelize-file', home_controller.get_sequelize_script_file)
 
 module.exports = router

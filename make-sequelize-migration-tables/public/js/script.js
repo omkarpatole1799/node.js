@@ -5,13 +5,29 @@ let dataType = document.querySelector('#data-type')
 let allowNull = document.querySelector('#allow-null')
 let downloadScriptBtn = document.querySelector('#download-script')
 let num = 0
-let sequelize_migration_script= ''
-let dataTypes = ['INTEGER', 'BIGINT', 'STRING(255)']
+let sequelize_migration_script = ''
+
+const data_types = [
+	'STRING',
+	'STRING(100)',
+	'STRING.BINARY',
+	'STRING(100).BINARY',
+	'TEXT',
+	'TEXT("tiny")',
+	'TEXT("medium")',
+	'TEXT("long")',
+	'CHAR',
+	'CHAR(100)',
+	'OTHER',
+]
+
+console.log(data_types)
 
 addRowBtn.addEventListener('click', function (e) {
 	e.preventDefault()
 	addNewRow()
 	update()
+	datatype_dropdown_change_handler()
 })
 
 function update() {
@@ -30,9 +46,7 @@ function addNewRow() {
 		<tr>
 			<td><input type="text" name='row-${num}' /></td>
 			<td>
-					<select name="row-${num}">
-						${makeDatatypeDropdownOptions()}
-					</select>
+				${makeDatatypeDropdownOptions()}
 			</td>
 			<td><input type="checkbox" name="row-${num}" checked='true'/></td>
 			<td><button class='delete-row-btn' type='button'>Delete</button></td>
@@ -41,13 +55,30 @@ function addNewRow() {
 	)
 }
 
+let data_type_html;
 function makeDatatypeDropdownOptions() {
-	let optionsHtml = ''
-	for (let i = 0; i < dataTypes.length; i++) {
-		optionsHtml += `<option value=${dataTypes[i]}>${dataTypes[i]}</option>`
+	let data_type_html = ` <select class="dropdown" name="row-${num}">`
+
+	for (let i = 0; i < data_types.length; i++) {
+		data_type_html += `<option value=${data_types[i]}>${data_types[i]}</option>`
 	}
-	return optionsHtml
+	data_type_html += `</select>`
+
+	return data_type_html
 }
+// function datatype_dropdown_change_handler() {
+// 	let selected_data_type = document.querySelectorAll('.dropdown')
+// 	console.log(selected_data_type)
+// 	selected_data_type.forEach((el) => {
+// 		el.addEventListener('change',function(){
+// 			console.log('changed')
+// 		})
+// 		if (selected_data_type === 'other') {
+
+
+// 		}
+// 	})
+// }
 btn.addEventListener('click', function (e) {
 	e.preventDefault()
 	let tableName = document.getElementById('table-name').value
@@ -63,10 +94,10 @@ btn.addEventListener('click', function (e) {
 			obj[key] = value
 		}
 	}
-	sequelize_migration_script+= returnCommonSequelizeScript(tableName, obj)
+	sequelize_migration_script += returnCommonSequelizeScript(tableName, obj)
 	getSequelizeScript(tableName, sequelize_migration_script, (fileName) => {
 		downloadSequelizeScript(fileName)
-		sequelize_migration_script= ''
+		sequelize_migration_script = ''
 	})
 })
 

@@ -5,7 +5,7 @@ let dataType = document.querySelector('#data-type')
 let allowNull = document.querySelector('#allow-null')
 let downloadScriptBtn = document.querySelector('#download-script')
 let num = 0
-let all = ''
+let sequelize_migration_script= ''
 let dataTypes = ['INTEGER', 'BIGINT', 'STRING(255)']
 
 addRowBtn.addEventListener('click', function (e) {
@@ -63,10 +63,10 @@ btn.addEventListener('click', function (e) {
 			obj[key] = value
 		}
 	}
-	all += returnCommonSequelizeScript(tableName, obj)
-	getSequelizeScript(tableName, all, (fileName) => {
+	sequelize_migration_script+= returnCommonSequelizeScript(tableName, obj)
+	getSequelizeScript(tableName, sequelize_migration_script, (fileName) => {
 		downloadSequelizeScript(fileName)
-		all = ''
+		sequelize_migration_script= ''
 	})
 })
 

@@ -27,7 +27,7 @@ addRowBtn.addEventListener('click', function (e) {
 	e.preventDefault()
 	addNewRow()
 	update()
-	datatype_dropdown_change_handler()
+	// datatype_dropdown_change_handler()
 })
 
 function update() {

@@ -24,5 +24,16 @@ const home_controller = {
 			})
 		}
 	},
+	delete_created_scripts: function (req, res) {
+		let directory_path = './public/created-scripts'
+		fs.readdir(directory_path, (err, files) => {
+			console.log(files)
+			if (files.length > 1) {
+				files.forEach((file) => {
+					fs.unlinkSync(`./public/created-scripts/${file}`)
+				})
+			}
+		})
+	},
 }
 module.exports = home_controller

@@ -21,6 +21,8 @@ const data_types = [
 	'TEXT("long")',
 	'CHAR',
 	'CHAR(100)',
+	'DATE',
+	'DATEONLY',
 	'OTHER',
 ]
 

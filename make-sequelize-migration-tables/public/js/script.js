@@ -24,6 +24,7 @@ const data_types = [
 	'CHAR(100)',
 	'DATE',
 	'DATEONLY',
+	'JSON',
 	'OTHER',
 ]
 

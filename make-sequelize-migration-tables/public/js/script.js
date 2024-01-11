@@ -8,7 +8,10 @@ let num = 0
 let sequelize_migration_script = ''
 
 const data_types = [
+	'INTEGER',
+	'BIGINT',
 	'STRING',
+	'STRING(255)',
 	'STRING(100)',
 	'STRING.BINARY',
 	'STRING(100).BINARY',

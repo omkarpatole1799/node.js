@@ -1,0 +1,4 @@
+[_] Make input field available if selected data type is other.
+[x] Make keyboard shortcut for making new input field.
+[_] Loading thingy.
+[_] Disable / hide the download script button until script is ready.

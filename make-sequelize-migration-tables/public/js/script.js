@@ -1,54 +1,52 @@
-let addRowBtn = document.querySelector('#add-row-button')
-let btn = document.querySelector('#submit-button')
-let columnName = document.querySelector('#column-name')
-let dataType = document.querySelector('#data-type')
-let allowNull = document.querySelector('#allow-null')
-let downloadScriptBtn = document.querySelector('#download-script')
-let num = 0
-let sequelize_migration_script = ''
+let addRowBtn = document.querySelector("#add-row-button");
+let btn = document.querySelector("#submit-button");
+let columnName = document.querySelector("#column-name");
+let dataType = document.querySelector("#data-type");
+let allowNull = document.querySelector("#allow-null");
+let downloadScriptBtn = document.querySelector("#download-script");
+let num = 0;
+let sequelize_migration_script = "";
 
 const data_types = [
-	'INTEGER',
-	'DOUBLE',
-	'BIGINT',
-	'STRING',
-	'STRING(255)',
-	'STRING(100)',
-	'STRING.BINARY',
-	'STRING(100).BINARY',
-	'TEXT',
+	"STRING",
+	"STRING(100)",
+	"STRING.BINARY",
+	"STRING(100).BINARY",
+	"TEXT",
 	'TEXT("tiny")',
 	'TEXT("medium")',
 	'TEXT("long")',
-	'CHAR',
-	'CHAR(100)',
-	'DATE',
-	'DATEONLY',
-	'JSON',
-	'OTHER',
-]
+	"CHAR",
+	"CHAR(100)",
+	"OTHER",
+];
 
-console.log(data_types)
-
-addRowBtn.addEventListener('click', function (e) {
-	e.preventDefault()
-	addNewRow()
-	update()
+addRowBtn.addEventListener("click", function (e) {
+	e.preventDefault();
+	addNewRow();
+	update();
 	// datatype_dropdown_change_handler()
+});
+
+document.addEventListener("keydown", function(e){
+	console.log(e.key)	
+	if (e.shiftKey && e.key === 'Enter') {
+		addNewRow()
+	}
 })
 
 function update() {
-	document.querySelectorAll('.delete-row-btn').forEach((btn) => {
-		btn.addEventListener('click', function (e) {
-			e.target.parentElement.parentElement.remove()
-		})
-	})
+	document.querySelectorAll(".delete-row-btn").forEach((btn) => {
+		btn.addEventListener("click", function (e) {
+			e.target.parentElement.parentElement.remove();
+		});
+	});
 }
 
 function addNewRow() {
-	num++
-	document.querySelector('.tbody').insertAdjacentHTML(
-		'beforeend',
+	num++;
+	document.querySelector(".tbody").insertAdjacentHTML(
+		"beforeend",
 		`
 		<tr>
 			<td><input type="text" name='row-${num}' /></td>
@@ -58,20 +56,20 @@ function addNewRow() {
 			<td><input type="checkbox" name="row-${num}" checked='true'/></td>
 			<td><button class='delete-row-btn' type='button'>Delete</button></td>
 		</tr>
-	`
-	)
+	`,
+	);
 }
 
 let data_type_html;
 function makeDatatypeDropdownOptions() {
-	let data_type_html = ` <select class="dropdown" name="row-${num}">`
+	let data_type_html = ` <select class="dropdown" name="row-${num}">`;
 
 	for (let i = 0; i < data_types.length; i++) {
-		data_type_html += `<option value=${data_types[i]}>${data_types[i]}</option>`
+		data_type_html += `<option value=${data_types[i]}>${data_types[i]}</option>`;
 	}
-	data_type_html += `</select>`
+	data_type_html += `</select>`;
 
-	return data_type_html
+	return data_type_html;
 }
 // function datatype_dropdown_change_handler() {
 // 	let selected_data_type = document.querySelectorAll('.dropdown')
@@ -82,31 +80,30 @@ function makeDatatypeDropdownOptions() {
 // 		})
 // 		if (selected_data_type === 'other') {
 
-
 // 		}
 // 	})
 // }
-btn.addEventListener('click', function (e) {
-	e.preventDefault()
-	let tableName = document.getElementById('table-name').value
-	let obj = {}
-	let form = new FormData(document.getElementById('my-form'))
+btn.addEventListener("click", function (e) {
+	e.preventDefault();
+	let tableName = document.getElementById("table-name").value;
+	let obj = {};
+	let form = new FormData(document.getElementById("my-form"));
 	for (let [key, value] of form) {
 		if (obj[key] !== undefined) {
 			if (!Array.isArray(obj[key])) {
-				obj[key] = [obj[key]]
+				obj[key] = [obj[key]];
 			}
-			obj[key].push(value)
+			obj[key].push(value);
 		} else {
-			obj[key] = value
+			obj[key] = value;
 		}
 	}
-	sequelize_migration_script += returnCommonSequelizeScript(tableName, obj)
+	sequelize_migration_script += returnCommonSequelizeScript(tableName, obj);
 	getSequelizeScript(tableName, sequelize_migration_script, (fileName) => {
-		downloadSequelizeScript(fileName)
-		sequelize_migration_script = ''
-	})
-})
+		downloadSequelizeScript(fileName);
+		sequelize_migration_script = "";
+	});
+});
 
 function returnCommonSequelizeScript(tableName, obj) {
 	return `
@@ -123,15 +120,15 @@ function returnCommonSequelizeScript(tableName, obj) {
 				${makeTableColumns(obj)}	
 			})
 			module.exports = ${tableName}
-		`
+		`;
 }
 
 function makeTableColumns(obj) {
-	let columns = ''
+	let columns = "";
 	for (let i of Object.values(obj)) {
-		columns += makeColumns(i[0], i[1], i[2])
+		columns += makeColumns(i[0], i[1], i[2]);
 	}
-	return columns
+	return columns;
 }
 
 function makeColumns(columnName, dataType, allowNull) {
@@ -140,36 +137,36 @@ function makeColumns(columnName, dataType, allowNull) {
 				type: Sequelize.${dataType.toUpperCase()}, 
 				allowNull: ${allowNull ? true : false}
 			},
-			`
+			`;
 }
 
 function getSequelizeScript(fileName, script, cb) {
 	let sendData = {
 		fileName,
 		script,
-	}
-	fetch('/post-sequelize-script', {
-		method: 'POST',
+	};
+	fetch("/post-sequelize-script", {
+		method: "POST",
 		headers: {
-			'Content-Type': 'application/json',
+			"Content-Type": "application/json",
 		},
 		body: JSON.stringify(sendData),
 	})
 		.then((response) => {
-			return response.json()
+			return response.json();
 		})
 		.then((result) => {
 			if (result.success === 1) {
-				cb(fileName)
+				cb(fileName);
 			} else {
-				throw new Error('Something went wrong')
+				throw new Error("Something went wrong");
 			}
 		})
 		.catch((err) => {
-			alert(err, 'Something went wrong')
-		})
+			alert(err, "Something went wrong");
+		});
 }
 
 function downloadSequelizeScript(fileName) {
-	downloadScriptBtn.setAttribute('href', `/created-scripts/${fileName}.js`)
+	downloadScriptBtn.setAttribute("href", `/created-scripts/${fileName}.js`);
 }

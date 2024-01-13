@@ -21,13 +21,15 @@ const data_types = [
 	"OTHER",
 ];
 
+// make new row using plus button
 addRowBtn.addEventListener("click", function (e) {
 	e.preventDefault();
 	addNewRow();
-	update();
+	update_delete_button();
 	// datatype_dropdown_change_handler()
 });
 
+// Keyboard shortcut for making new row
 document.addEventListener("keydown", function(e){
 	console.log(e.key)	
 	if (e.shiftKey && e.key === 'Enter') {
@@ -35,7 +37,7 @@ document.addEventListener("keydown", function(e){
 	}
 })
 
-function update() {
+function update_delete_button() {
 	document.querySelectorAll(".delete-row-btn").forEach((btn) => {
 		btn.addEventListener("click", function (e) {
 			e.target.parentElement.parentElement.remove();

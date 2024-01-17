@@ -1,55 +1,59 @@
-let addRowBtn = document.querySelector('#add-row-button')
-let btn = document.querySelector('#submit-button')
-let columnName = document.querySelector('#column-name')
-let dataType = document.querySelector('#data-type')
-let allowNull = document.querySelector('#allow-null')
-let downloadScriptBtn = document.querySelector('#download-script')
+let addRowBtn = document.querySelector("#add-row-button")
+let btn = document.querySelector("#submit-button")
+let columnName = document.querySelector("#column-name")
+let dataType = document.querySelector("#data-type")
+let allowNull = document.querySelector("#allow-null")
+let downloadScriptBtn = document.querySelector("#download-script")
 let num = 0
-let sequelize_migration_script = ''
+let sequelize_migration_script = ""
 
 const data_types = [
-	'STRING',
-	'STRING(100)',
-	'STRING.BINARY',
-	'STRING(100).BINARY',
-	'TEXT',
+	"INTEGER",
+	"BIGINT",
+	"STRING",
+	"STRING(100)",
+	"STRING.BINARY",
+	"STRING(100).BINARY",
+	"TEXT",
 	'TEXT("tiny")',
 	'TEXT("medium")',
 	'TEXT("long")',
-	'CHAR',
-	'CHAR(100)',
-	'OTHER',
+	"CHAR",
+	"CHAR(100)",
+	"OTHER",
 ]
 
 // hide the downlaod button unti script is ready
 hideDownloadButton()
 function hideDownloadButton() {
-	downloadScriptBtn.style.display = 'none'
+	downloadScriptBtn.style.display = "none"
 }
 // show the downlaod button unti script is ready
 function showDownloadButton() {
-	downloadScriptBtn.style.display = 'inline-block'
+	downloadScriptBtn.style.display = "inline-block"
 }
 
 // make new row using plus button
-addRowBtn.addEventListener('click', function (e) {
+addRowBtn.addEventListener("click", function (e) {
 	e.preventDefault()
 	addNewRow()
 	update_delete_button()
-	// datatype_dropdown_change_handler()
+	datatype_dropdown_change_handler()
 })
 
 // Keyboard shortcut for making new row
-document.addEventListener('keydown', function (e) {
+document.addEventListener("keydown", function (e) {
 	console.log(e.key)
-	if (e.shiftKey && e.key === 'Enter') {
+	if (e.shiftKey && e.key === "Enter") {
 		addNewRow()
+		update_delete_button()
+		datatype_dropdown_change_handler()
 	}
 })
 
 function update_delete_button() {
-	document.querySelectorAll('.delete-row-btn').forEach((btn) => {
-		btn.addEventListener('click', function (e) {
+	document.querySelectorAll(".delete-row-btn").forEach((btn) => {
+		btn.addEventListener("click", function (e) {
 			e.target.parentElement.parentElement.remove()
 		})
 	})
@@ -57,8 +61,8 @@ function update_delete_button() {
 
 function addNewRow() {
 	num++
-	document.querySelector('.tbody').insertAdjacentHTML(
-		'beforeend',
+	document.querySelector(".tbody").insertAdjacentHTML(
+		"beforeend",
 		`
 		<tr>
 			<td><input type="text" name='row-${num}' /></td>
@@ -72,34 +76,36 @@ function addNewRow() {
 	)
 }
 
-let data_type_html
 function makeDatatypeDropdownOptions() {
-	let data_type_html = ` <select class="dropdown" name="row-${num}">`
-
-	for (let i = 0; i < data_types.length; i++) {
-		data_type_html += `<option value=${data_types[i]}>${data_types[i]}</option>`
-	}
-	data_type_html += `</select>`
-
-	return data_type_html
+	let data_types_options = data_types.map((type) => {
+		return `<option value=${type}>${type}</option>`
+	})
+	let data_types_dropdown_html = `<select class="dropdown" name="row-${num}"> ${data_types_options} </select>`
+	data_types_dropdown_html += `<input type='text' class="d-none" placeholder="Enter Datatype" name="row-${num}"/>`
+	return data_types_dropdown_html
 }
-// function datatype_dropdown_change_handler() {
-// 	let selected_data_type = document.querySelectorAll('.dropdown')
-// 	console.log(selected_data_type)
-// 	selected_data_type.forEach((el) => {
-// 		el.addEventListener('change',function(){
-// 			console.log('changed')
-// 		})
-// 		if (selected_data_type === 'other') {
 
-// 		}
-// 	})
-// }
-btn.addEventListener('click', function (e) {
+function datatype_dropdown_change_handler() {
+	let data_type_dropdown = document.querySelectorAll('.dropdown')
+
+	data_type_dropdown.forEach((el) => {
+		el.addEventListener('change',function(){
+			console.log(el.value)
+			let current_value = el.value.toLowerCase()
+			if (current_value === 'other') {
+				console.log(el.nextElementSibling,'--')
+				el.nextElementSibling.classList.remove('d-none')
+			} else {
+				el.nextElementSibling.classList.add('d-none')
+			}
+		})
+	})
+}
+btn.addEventListener("click", function (e) {
 	e.preventDefault()
-	let tableName = document.getElementById('table-name').value
+	let tableName = document.getElementById("table-name").value
 	let obj = {}
-	let form = new FormData(document.getElementById('my-form'))
+	let form = new FormData(document.getElementById("my-form"))
 	for (let [key, value] of form) {
 		if (obj[key] !== undefined) {
 			if (!Array.isArray(obj[key])) {
@@ -114,7 +120,7 @@ btn.addEventListener('click', function (e) {
 
 	getSequelizeScript(tableName, sequelize_migration_script, (fileName) => {
 		downloadSequelizeScript(fileName)
-		sequelize_migration_script = ''
+		sequelize_migration_script = ""
 	})
 })
 
@@ -137,7 +143,7 @@ function returnCommonSequelizeScript(tableName, obj) {
 }
 
 function makeTableColumns(obj) {
-	let columns = ''
+	let columns = ""
 	for (let i of Object.values(obj)) {
 		columns += makeColumns(i[0], i[1], i[2])
 	}
@@ -158,10 +164,10 @@ function getSequelizeScript(fileName, script, cb) {
 		fileName,
 		script,
 	}
-	fetch('/post-sequelize-script', {
-		method: 'POST',
+	fetch("/post-sequelize-script", {
+		method: "POST",
 		headers: {
-			'Content-Type': 'application/json',
+			"Content-Type": "application/json",
 		},
 		body: JSON.stringify(sendData),
 	})
@@ -172,15 +178,15 @@ function getSequelizeScript(fileName, script, cb) {
 			if (result.success === 1) {
 				cb(fileName)
 			} else {
-				throw new Error('Something went wrong')
+				throw new Error("Something went wrong")
 			}
 		})
 		.catch((err) => {
-			alert(err, 'Something went wrong')
+			alert(err, "Something went wrong")
 		})
 }
 
 function downloadSequelizeScript(fileName) {
 	showDownloadButton()
-	downloadScriptBtn.setAttribute('href', `/created-scripts/${fileName}.js`)
+	downloadScriptBtn.setAttribute("href", `/created-scripts/${fileName}.js`)
 }

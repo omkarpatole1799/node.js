@@ -59,13 +59,13 @@ function update_delete_button() {
 	})
 }
 
-function addNewRow() {
+function addNewRow(col_name) {
 	num++
 	document.querySelector(".tbody").insertAdjacentHTML(
 		"beforeend",
 		`
 		<tr>
-			<td><input type="text" name='row-${num}' /></td>
+			<td><input type="text" name='row-${num}' value="${col_name}"/></td>
 			<td>
 				${makeDatatypeDropdownOptions()}
 			</td>
@@ -86,17 +86,17 @@ function makeDatatypeDropdownOptions() {
 }
 
 function datatype_dropdown_change_handler() {
-	let data_type_dropdown = document.querySelectorAll('.dropdown')
+	let data_type_dropdown = document.querySelectorAll(".dropdown")
 
 	data_type_dropdown.forEach((el) => {
-		el.addEventListener('change',function(){
+		el.addEventListener("change", function () {
 			console.log(el.value)
 			let current_value = el.value.toLowerCase()
-			if (current_value === 'other') {
-				console.log(el.nextElementSibling,'--')
-				el.nextElementSibling.classList.remove('d-none')
+			if (current_value === "other") {
+				console.log(el.nextElementSibling, "--")
+				el.nextElementSibling.classList.remove("d-none")
 			} else {
-				el.nextElementSibling.classList.add('d-none')
+				el.nextElementSibling.classList.add("d-none")
 			}
 		})
 	})
@@ -190,3 +190,12 @@ function downloadSequelizeScript(fileName) {
 	showDownloadButton()
 	downloadScriptBtn.setAttribute("href", `/created-scripts/${fileName}.js`)
 }
+
+// make script from pasted column names
+const multiColumnSubmitBtn = document.getElementById("multi-column-submit")
+const textArea = document.getElementById("multi-column-input")
+const moduleType = document.getElementById("module-type")
+multiColumnSubmitBtn.addEventListener("click", function () {
+	const multiColumnInput = textArea.value
+	multiColumnInput.split(",").forEach((col) => addNewRow(col))
+})
